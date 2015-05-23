@@ -43,7 +43,7 @@ Voila à quoi ce Twig ressemble :
         <!--/.container-fluid -->
     </nav>
 
-Voila, le menu sera appelé tout seul a chaque affichage, de votre page, maintenant il faut signaler sur quelle page on se trouve pour que l'onglet correspondant prenne la classe 'active'. C'est pas obligatoire mais c'est quand meme mieux. Pour faire ca, je fais appel a un service qui va coller le nom de la route actuelle en session, dans chaque controlleur. Mais avant ca, je récupère le nom de la route en cour en rajoutant un argument spécial dans ma methode de controller. Cet argument, c'est ```$_route```. Il permet de récupérer le nom de la route, c'est ce que j'utilise pour l'identification de la page en cour. Donc voila le service a appeler pour mettre a jour la page sur laquelle on se trouve avec un petit exemple de controlleur basique :
+Voila, le menu sera appelé tout seul a chaque affichage, de votre page, maintenant il faut signaler sur quelle page on se trouve pour que l'onglet correspondant prenne la classe 'active'. C'est pas obligatoire mais c'est quand meme mieux. Pour faire ca, je fais appel a un service qui va coller le nom de la route actuelle en session, dans chaque controlleur. Mais avant ca, je récupère le nom de la route en cour en rajoutant un argument spécial dans ma methode de controller. Cet argument, c'est ```$_route```. Donc voila le service a appeler pour mettre a jour la page sur laquelle on se trouve avec un petit exemple de controlleur basique :
 
     	public function indexAction($_route)
     	{
