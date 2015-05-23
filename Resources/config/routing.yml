@@ -1,0 +1,4 @@
+
+get_html_menu:
+    path:     /getHtmlMenu
+    defaults: { _controller: RudakMenuBundle:Include:getHtmlMenu }

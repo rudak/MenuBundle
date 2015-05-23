@@ -1,0 +1,7 @@
+services:
+    rudak.menu.handler:
+        class: Rudak\MenuBundle\Util\MenuHandler
+        arguments: [@session]
+    rudak.menu.updater:
+        class: Rudak\MenuBundle\Util\MenuUpdater
+        arguments: [@session]
