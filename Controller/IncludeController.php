@@ -11,23 +11,22 @@ class IncludeController extends Controller
 
 	private $htmlItems;
 	private $wrapper;
-
+	private $config;
 
 	public function getHtmlMenuAction($wrapper = false)
 	{
-		$this->wrapper = $wrapper;
-		$config        = $this->container->getParameter('rudak.menu.config');
-		$items         = $config['items'];
+		$this->wrapper                     = $wrapper;
+		$config                            = $this->container->getParameter('rudak.menu.config');
+		$items                             = $config['items'];
+		$this->config['current_classname'] = $config['current_classname'];
+		$this->config['other_classname']   = $config['other_classname'];
 
 		foreach ($items as $item) {
 			$this->addHtmlItem($item);
 		}
 
-		$html = $this->getHtml();
-
-
+		$html     = $this->getHtml();
 		$response = new Response($html);
-
 		return $response;
 	}
 
@@ -44,8 +43,8 @@ class IncludeController extends Controller
 	{
 		$this->htmlItems .= sprintf(
 			$this->getLineTemplate(),
-			$this->getItemClass($item['route']),
-			$this->getHref($item['route']),
+			$this->getItemClass($item),
+			$this->getHref($item),
 			$item['title'],
 			$item['index']
 		);
@@ -61,19 +60,16 @@ class IncludeController extends Controller
 		return "<li class='%s'>\n<a href='%s' title='%s'>%s</a>\n</li>\n";
 	}
 
-	private function getItemClass($route)
+	private function getItemClass($item)
 	{
-		$session_route = $this->get('session')->get(MenuHandler::MENU_ITEM);
-		if ($route == $session_route) {
-			return 'active';
-		} else {
-			return 'inactive';
-		}
+		return ($item['route'] == $this->get('session')->get(MenuHandler::MENU_ITEM))
+			? $this->config['current_classname']
+			: $this->config['other_classname'];
 	}
 
-	private function getHref($route)
+	private function getHref($item)
 	{
-		return $this->generateUrl($route);
+		return $this->generateUrl($item['route']);
 	}
 
 }

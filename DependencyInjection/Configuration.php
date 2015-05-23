@@ -21,15 +21,24 @@ class Configuration implements ConfigurationInterface
 	{
 		$treeBuilder = new TreeBuilder();
 		$rootNode    = $treeBuilder->root('rudak_menu');
-		#TODO : ajouter nom de classe facultatif à rajouter au LI actif ('active' par défaut)
-		#TODO : ajouter identifiant de session obligatoire (pas forcément unique), correspondant a la page vue, pour regrouper les items (nom de route par défaut pour l'instant)
+
 		$rootNode->children()
+					->scalarNode('current_classname')
+						->defaultValue('active')
+						->treatNullLike('active')
+					->end()
+					->scalarNode('other_classname')
+						->defaultValue('inactive')
+						->treatNullLike('')
+					->end()
 				 	->arrayNode('items')
+						->isRequired()
+						->requiresAtLeastOneElement()
 						->prototype('array')
 							->children()
 								->scalarNode('index')->end()
 								->scalarNode('route')->end()
-								->scalarNode('title')->end()
+							 	->scalarNode('title')->end()
 							->end()
 						->end()
 			  		->end()
