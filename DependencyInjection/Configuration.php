@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
 		$rootNode    = $treeBuilder->root('rudak_menu');
 
 		$rootNode->children()
+			# TODO blog et articles de blog sur le meme onglet actif
 					->scalarNode('current_classname')
 						->defaultValue('active')
 						->treatNullLike('active')
