@@ -43,7 +43,13 @@ class Configuration implements ConfigurationInterface
 							->end()
 						->end()
 			  		->end()
-				 ->end();
+
+					->arrayNode('hierachy')
+						->prototype('array')
+							->prototype('scalar')
+							->end()
+						->end()
+					->end();
 
 		return $treeBuilder;
 	}

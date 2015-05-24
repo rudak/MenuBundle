@@ -2,74 +2,36 @@
 
 namespace Rudak\MenuBundle\Controller;
 
-use Rudak\MenuBundle\Util\MenuHandler;
+use Rudak\MenuBundle\Elements\Hierarchy;
+use Rudak\MenuBundle\Elements\Item;
+use Rudak\MenuBundle\Elements\Menu;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 class IncludeController extends Controller
 {
 
-	private $htmlItems;
-	private $wrapper;
+	private $Menu;
 	private $config;
+	private $router;
 
-	public function getHtmlMenuAction($wrapper = false)
+	public function getHtmlMenuAction($wrapper)
 	{
-		$this->wrapper                     = $wrapper;
-		$config                            = $this->container->getParameter('rudak.menu.config');
-		$items                             = $config['items'];
-		$this->config['current_classname'] = $config['current_classname'];
-		$this->config['other_classname']   = $config['other_classname'];
+		$session      = $this->get('session');
+		$this->config = $this->container->getParameter('rudak.menu.config');
+		$this->Menu   = new Menu($wrapper);
+		$this->router = $this->get('router');
 
-		foreach ($items as $item) {
-			$this->addHtmlItem($item);
+		foreach ($this->config['items'] as $config_item) {
+			$Item = new Item($config_item, $session, $this->router, $this->config['current_classname'], $this->config['other_classname']);
+			$Item->checkHierarchy($this->config['hierachy']);
+			$this->Menu->addItem($Item);
 		}
+		//var_dump($this->Menu->items);
 
-		$html     = $this->getHtml();
-		$response = new Response($html);
+		$response = new Response($this->Menu->getHtml());
 		return $response;
 	}
 
-	private function getHtml()
-	{
-		if ($this->wrapper) {
-			return sprintf($this->getMenuWrapper(), $this->htmlItems);
-		} else {
-			return $this->htmlItems;
-		}
-	}
-
-	private function addHtmlItem($item)
-	{
-		$this->htmlItems .= sprintf(
-			$this->getLineTemplate(),
-			$this->getItemClass($item),
-			$this->getHref($item),
-			$item['title'],
-			$item['index']
-		);
-	}
-
-	private function getMenuWrapper()
-	{
-		return "<ul id='main_menu'>\n%s</ul>\n";
-	}
-
-	private function getLineTemplate()
-	{
-		return "<li class='%s'>\n<a href='%s' title='%s'>%s</a>\n</li>\n";
-	}
-
-	private function getItemClass($item)
-	{
-		return ($item['route'] == $this->get('session')->get(MenuHandler::MENU_ITEM))
-			? $this->config['current_classname']
-			: $this->config['other_classname'];
-	}
-
-	private function getHref($item)
-	{
-		return $this->generateUrl($item['route']);
-	}
 
 }
