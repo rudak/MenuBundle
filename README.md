@@ -47,9 +47,6 @@ Voila à quoi ce Twig ressemble :
 
 Voila, le menu sera appelé tout seul à chaque affichage de votre page, maintenant il faut signaler sur quelle page on se trouve pour que l'onglet correspondant prenne la classe 'active'. Et c'est désormais un listener qui s'occupe de ca tout seul à chaque requetes. Donc en gros, une fois la requete lancée, le listener chope le nom de la route et la place en session (avec la clé définie en constante dans MenuHandler). Ensuite il s'agit juste d'une simple comparaison de l'item de menu a afficher et de celui en session pour savoir si il faut attribuer la classe active ou pas. C'est un peu plus compliqué pour ce qui est de la hierarchie mais le code est commenté donc c'est pas sorcier. Bref, ca marche tout seul ^^ 
 
-    	
-*Alors... J'imagine qu'on peut trouver mieux pour identifier les pages, mais je sais pas trop comment alors ca évoluera peut etre mais pour l'instant ca marche pas trop mal comme ca donc ^^... (TODO)*
-
 ## Hierarchie
 
 Sur un de mes sites, la partie blog et ses articles me posaient probleme. Je voulais que mes articles dépendent de l'onglet blog (onglet actif). Pour cette raison j'ai créé un systeme de hierarchie, configurable dans ```config.yml``` comme ceci :
