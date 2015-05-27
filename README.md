@@ -45,14 +45,8 @@ Voila à quoi ce Twig ressemble :
 
 ## Fonctionnement
 
-Voila, le menu sera appelé tout seul a chaque affichage, de votre page, maintenant il faut signaler sur quelle page on se trouve pour que l'onglet correspondant prenne la classe 'active'. C'est pas obligatoire mais c'est quand meme mieux. Pour faire ca, je fais appel a un service qui va coller le nom de la route actuelle en session, dans chaque controlleur. Mais avant ca, je récupère **le nom de la route en cour** en rajoutant un argument spécial dans ma methode de controller. Cet argument, c'est ```$_route```. Donc voila le service a appeler pour mettre a jour la page sur laquelle on se trouve avec un petit exemple de controlleur basique :
+Voila, le menu sera appelé tout seul à chaque affichage de votre page, maintenant il faut signaler sur quelle page on se trouve pour que l'onglet correspondant prenne la classe 'active'. Et c'est désormais un listener qui s'occupe de ca tout seul à chaque requetes. Donc en gros, une fois la requete lancée, le listener chope le nom de la route et la place en session (avec la clé définie en constante dans MenuHandler). Ensuite il s'agit juste d'une simple comparaison de l'item de menu a afficher et de celui en session pour savoir si il faut attribuer la classe active ou pas. C'est un peu plus compliqué pour ce qui est de la hierarchie mais le code est commenté donc c'est pas sorcier. Bref, ca marche tout seul ^^ 
 
-    	public function indexAction($_route)
-    	{
-    		$MenuUpdater = $this->get('rudak.menu.updater');
-    		$MenuUpdater->update($_route);
-    		return $this->render('GameMainBundle:Default:index.html.twig');
-    	}
     	
 *Alors... J'imagine qu'on peut trouver mieux pour identifier les pages, mais je sais pas trop comment alors ca évoluera peut etre mais pour l'instant ca marche pas trop mal comme ca donc ^^... (TODO)*
 
