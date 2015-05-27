@@ -5,3 +5,7 @@ services:
     rudak.menu.updater:
         class: Rudak\MenuBundle\Util\MenuUpdater
         arguments: [@session]
+    rudak.menu.routeChecker:
+        class: Rudak\MenuBundle\EventListener\RouteCheckerListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 30 }
