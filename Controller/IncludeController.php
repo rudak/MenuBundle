@@ -23,7 +23,7 @@ class IncludeController extends Controller
 		$this->router = $this->get('router');
 
 		foreach ($this->config['items'] as $config_item) {
-			$Item = new Item($config_item, $session, $this->router, $this->config['current_classname'], $this->config['other_classname']);
+			$Item = new Item($config_item, $session, $this->router, $this->config['configuration']);
 			$Item->checkHierarchy($this->config['hierachy']);
 			$this->Menu->addItem($Item);
 		}

@@ -24,13 +24,13 @@ class Item
 	private $hierarchy;
 	private $session;
 
-	function __construct($config_item, Session $session, Router $router, $currentClassname, $otherClassname)
+	function __construct($config_item, Session $session, Router $router, $config)
 	{
 		$this->title            = $config_item['title'];
 		$this->route            = $config_item['route'];
 		$this->index            = $config_item['index'];
-		$this->currentClassname = $currentClassname;
-		$this->otherClassname   = $otherClassname;
+		$this->currentClassname = $config['current_classname'];
+		$this->otherClassname   = $config['other_classname'];
 		$this->session          = $session;
 		$this->router           = $router;
 		$this->hierarchy        = false;
@@ -76,26 +76,24 @@ class Item
 				return $this->otherClassname;
 			}
 		} else {
-			if ($this->route == $session_entry) {
-				return $this->currentClassname;
-			} else {
-				return $this->otherClassname;
-			}
+			return ($this->route == $session_entry) ? $this->currentClassname : $this->otherClassname;
 		}
 	}
 
 	/**
-	 * Renvoie l'url correspondant a la route
+	 * Renvoie l'url correspondant a la route si elle existe, sinon renvoie #
+	 *
 	 * @return string
 	 */
 	private function getUrl()
 	{
-		return $this->router->generate($this->route);
+		return ($this->routeExists($this->route)) ? $this->router->generate($this->route) : '#route_error';
 	}
 
 	/**
 	 * On vérifie la configuration de la hierarchie, si cette route a des enfants, on les places tous dans
 	 * le tableau hierarchy, qui sera parsé au moment de la definition de la classe.
+	 *
 	 * @param $hierarchy_config
 	 */
 	public function checkHierarchy($hierarchy_config)
@@ -107,6 +105,18 @@ class Item
 				}
 			}
 		}
+	}
+
+	/**
+	 * Vérifie si la route existe et renvoie true si c'est le cas, sinon false.
+	 *
+	 * @param $routeName
+	 * @return bool
+	 */
+	private function routeExists($routeName)
+	{
+		$router = $this->router;
+		return (null === $router->getRouteCollection()->get($routeName)) ? false : true;
 	}
 
 }
