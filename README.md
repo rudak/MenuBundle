@@ -10,10 +10,15 @@ Simple Bundle de gestion des menus
 
 Il faut commencer par configurer les items du menu, dans config.yml de cette facon :
     
-    rudak_menu:
-        items:
-            - { index: Accueil, route: homepage, title: 'Accueil du site' }
-            - { index: Administration, route: main_admin, title: 'Administration du site' }
+    items:
+        - { index: Accueil, route: homepage, title: 'Accueil du site' }
+        - { index: Administration, route: game_main_admin, title: 'Administration du site' }
+    hierachy:
+        blog:   #optionnel
+            - { articleById, articleByDate, articleCategory, articleFullList}   #optionnel
+    configuration:
+        current_classname: yes  #optionnel
+        other_classname: no     #optionnel
             
 Ensuite il faut placer l'appel du controller ```{{ render(controller('RudakMenuBundle:Include:getHtmlMenu')) }}``` dans votre vue sensée afficher le menu, chez moi c'est un menu *bootstrap classique* qui se trouve dans ```'::main-menu.html.twig'```. Par contre le menu ne renvoie que les elements LI vu qu'il y a plein de classes dans mon UL, ca va plus vite. On peut forcer l'envoie d'un UL contenant l'ID ```main_menu``` enveloppant tout ca en ajoutant le parametre **wrapper = true** a l'appel du controller, dans le Twig. Par défaut, le wrapper est False. 
 
