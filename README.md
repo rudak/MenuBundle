@@ -14,7 +14,7 @@ Il faut commencer par configurer les items du menu, dans config.yml de cette fac
         - { index: Accueil, route: homepage, title: 'Accueil du site' }
         - { index: Administration, route: game_main_admin, title: 'Administration du site' }
     hierachy:
-        blog:   monBlog: ['mon_article','liste_articles_full'] #optionnel
+        blog: ['mon_article','liste_articles_full'] #optionnel
     configuration:
         current_classname: yes  #optionnel
         other_classname: no     #optionnel
