@@ -40,7 +40,7 @@ Voila à quoi ce Twig ressemble :
             </div>
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav">
-                    {{ render(controller('RudakMenuBundle:Include:getHtmlMenu')) }}
+                    {{ render(controller('RudakMenuBundle:Include:getHtmlMenu',{'wrapper':false})) }}
                 </ul>    
             </div>
             <!--/.nav-collapse -->

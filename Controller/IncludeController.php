@@ -15,7 +15,7 @@ class IncludeController extends Controller
 	private $config;
 	private $router;
 
-	public function getHtmlMenuAction($wrapper)
+	public function getHtmlMenuAction($wrapper = false)
 	{
 		$session      = $this->get('session');
 		$this->config = $this->container->getParameter('rudak.menu.config');
@@ -27,7 +27,6 @@ class IncludeController extends Controller
 			$Item->checkHierarchy($this->config['hierachy']);
 			$this->Menu->addItem($Item);
 		}
-		//var_dump($this->Menu->items);
 
 		$response = new Response($this->Menu->getHtml());
 		return $response;
