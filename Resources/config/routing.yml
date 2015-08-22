@@ -1,4 +1,7 @@
-
 get_html_menu:
     path:     /getHtmlMenu
     defaults: { _controller: RudakMenuBundle:Include:getHtmlMenu }
+
+rudak_menu_admin_menu_item:
+    resource: "@RudakMenuBundle/Resources/config/routing/item.yml"
+    prefix:   /admin/menu/item

@@ -5,6 +5,7 @@ namespace Rudak\MenuBundle\Controller;
 use Rudak\MenuBundle\Elements\Hierarchy;
 use Rudak\MenuBundle\Elements\Item;
 use Rudak\MenuBundle\Elements\Menu;
+use Rudak\MenuBundle\Model\ObjectsToHtml;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,6 +31,16 @@ class IncludeController extends Controller
 
 		$response = new Response($this->Menu->getHtml());
 		return $response;
+	}
+
+	public function getDatabaseMenuAction()
+	{
+		$em             = $this->getDoctrine()->getManager();
+		$repo           = $em->getRepository('RudakMenuBundle:Item');
+		$entities       = $repo->getItemsByRank();
+		$EntitiesToHtml = new ObjectsToHtml($entities, $this->get("router"), $this->get('session'));
+		$html           = $EntitiesToHtml->getHtml();
+		return new Response($html);
 	}
 
 

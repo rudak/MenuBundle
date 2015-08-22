@@ -24,8 +24,12 @@ class RouteCheckerListener
 
 		$request = $event->getRequest();
 		$session = $request->getSession();
-
 		$routeName = $request->get('_route');
-		$session->set(Menu::MENU_ITEM, $routeName);
+		if ($routeName == 'rudak_cms_page_read') {
+			$params = $request->attributes->get('_route_params');
+			$session->set(Menu::MENU_PAGE_DYN, $params['id']);
+		} else {
+			$session->set(Menu::MENU_ITEM, $routeName);
+		}
 	}
 }

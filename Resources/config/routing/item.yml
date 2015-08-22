@@ -1,0 +1,30 @@
+admin_menu_item:
+    path:     /
+    defaults: { _controller: "RudakMenuBundle:Item:index" }
+
+admin_menu_item_show:
+    path:     /{id}/show
+    defaults: { _controller: "RudakMenuBundle:Item:show" }
+
+admin_menu_item_new:
+    path:     /new
+    defaults: { _controller: "RudakMenuBundle:Item:new" }
+
+admin_menu_item_create:
+    path:     /create
+    defaults: { _controller: "RudakMenuBundle:Item:create" }
+    methods:  POST
+
+admin_menu_item_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "RudakMenuBundle:Item:edit" }
+
+admin_menu_item_update:
+    path:     /{id}/update
+    defaults: { _controller: "RudakMenuBundle:Item:update" }
+    methods:  [POST, PUT]
+
+admin_menu_item_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "RudakMenuBundle:Item:delete" }
+    methods:  [POST, DELETE]

@@ -1,0 +1,57 @@
+<?php
+
+namespace Rudak\MenuBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Item
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Rudak\MenuBundle\Entity\ItemRepository")
+ */
+class Item
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="html", type="string", length=60)
+     */
+    private $html;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rank", type="smallint")
+     */
+    private $rank;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Rudak\CmsBundle\Entity\Page")
+     */
+    private $page;
+
+}

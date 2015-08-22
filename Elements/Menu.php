@@ -12,7 +12,8 @@ namespace Rudak\MenuBundle\Elements;
 class Menu
 {
 
-	const MENU_ITEM = 'menu_item';
+	const MENU_ITEM     = 'menu_item';
+	const MENU_PAGE_DYN = 'CmsPageDynID';
 
 	private $wrapper;
 	private $id;
@@ -48,6 +49,7 @@ class Menu
 
 	/**
 	 * Renvoie le pattern du menu. (Un <UL> ou rien du tout)
+	 *
 	 * @return string
 	 */
 	private function getWrapperPattern()
@@ -57,6 +59,7 @@ class Menu
 
 	/**
 	 * crée et renvoie le HTML des elements LI
+	 *
 	 * @return string
 	 */
 	private function getListHtml()
