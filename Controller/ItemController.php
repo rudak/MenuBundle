@@ -2,11 +2,10 @@
 
 namespace Rudak\MenuBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Rudak\MenuBundle\Entity\Item;
 use Rudak\MenuBundle\Form\ItemType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Item controller.
@@ -15,210 +14,212 @@ use Rudak\MenuBundle\Form\ItemType;
 class ItemController extends Controller
 {
 
-    /**
-     * Lists all Item entities.
-     *
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
+	/**
+	 * Lists all Item entities.
+	 *
+	 */
+	public function indexAction()
+	{
+		$em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('RudakMenuBundle:Item')->findby([],array('rank' => 'ASC'));
+		$entities = $em->getRepository('RudakMenuBundle:Item')->findallByRank();
 
-        return $this->render('RudakMenuBundle:Item:index.html.twig', array(
-            'entities' => $entities,
-        ));
-    }
-    /**
-     * Creates a new Item entity.
-     *
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new Item();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+		return $this->render('RudakMenuBundle:Item:index.html.twig', array(
+			'entities' => $entities,
+		));
+	}
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+	/**
+	 * Creates a new Item entity.
+	 *
+	 */
+	public function createAction(Request $request)
+	{
+		$entity = new Item();
+		$form   = $this->createCreateForm($entity);
+		$form->handleRequest($request);
 
-            return $this->redirect($this->generateUrl('admin_menu_item_show', array('id' => $entity->getId())));
-        }
+		if ($form->isValid()) {
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($entity);
+			$em->flush();
 
-        return $this->render('RudakMenuBundle:Item:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
+			return $this->redirect($this->generateUrl('admin_menu_item_show', array('id' => $entity->getId())));
+		}
 
-    /**
-     * Creates a form to create a Item entity.
-     *
-     * @param Item $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Item $entity)
-    {
-        $form = $this->createForm(new ItemType(), $entity, array(
-            'action' => $this->generateUrl('admin_menu_item_create'),
-            'method' => 'POST',
-        ));
+		return $this->render('RudakMenuBundle:Item:new.html.twig', array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		));
+	}
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+	/**
+	 * Creates a form to create a Item entity.
+	 *
+	 * @param Item $entity The entity
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createCreateForm(Item $entity)
+	{
+		$form = $this->createForm(new ItemType(), $entity, array(
+			'action' => $this->generateUrl('admin_menu_item_create'),
+			'method' => 'POST',
+		));
 
-        return $form;
-    }
+		$form->add('submit', 'submit', array('label' => 'Create'));
 
-    /**
-     * Displays a form to create a new Item entity.
-     *
-     */
-    public function newAction()
-    {
-        $entity = new Item();
-        $form   = $this->createCreateForm($entity);
+		return $form;
+	}
 
-        return $this->render('RudakMenuBundle:Item:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
+	/**
+	 * Displays a form to create a new Item entity.
+	 *
+	 */
+	public function newAction()
+	{
+		$entity = new Item();
+		$form   = $this->createCreateForm($entity);
 
-    /**
-     * Finds and displays a Item entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+		return $this->render('RudakMenuBundle:Item:new.html.twig', array(
+			'entity' => $entity,
+			'form'   => $form->createView(),
+		));
+	}
 
-        $entity = $em->getRepository('RudakMenuBundle:Item')->find($id);
+	/**
+	 * Finds and displays a Item entity.
+	 *
+	 */
+	public function showAction($id)
+	{
+		$em = $this->getDoctrine()->getManager();
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Item entity.');
-        }
+		$entity = $em->getRepository('RudakMenuBundle:Item')->find($id);
 
-        $deleteForm = $this->createDeleteForm($id);
+		if (!$entity) {
+			throw $this->createNotFoundException('Unable to find Item entity.');
+		}
 
-        return $this->render('RudakMenuBundle:Item:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+		$deleteForm = $this->createDeleteForm($id);
 
-    /**
-     * Displays a form to edit an existing Item entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+		return $this->render('RudakMenuBundle:Item:show.html.twig', array(
+			'entity'      => $entity,
+			'delete_form' => $deleteForm->createView(),
+		));
+	}
 
-        $entity = $em->getRepository('RudakMenuBundle:Item')->find($id);
+	/**
+	 * Displays a form to edit an existing Item entity.
+	 *
+	 */
+	public function editAction($id)
+	{
+		$em = $this->getDoctrine()->getManager();
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Item entity.');
-        }
+		$entity = $em->getRepository('RudakMenuBundle:Item')->find($id);
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+		if (!$entity) {
+			throw $this->createNotFoundException('Unable to find Item entity.');
+		}
 
-        return $this->render('RudakMenuBundle:Item:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
+		$editForm   = $this->createEditForm($entity);
+		$deleteForm = $this->createDeleteForm($id);
 
-    /**
-    * Creates a form to edit a Item entity.
-    *
-    * @param Item $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Item $entity)
-    {
-        $form = $this->createForm(new ItemType(), $entity, array(
-            'action' => $this->generateUrl('admin_menu_item_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
+		return $this->render('RudakMenuBundle:Item:edit.html.twig', array(
+			'entity'      => $entity,
+			'edit_form'   => $editForm->createView(),
+			'delete_form' => $deleteForm->createView(),
+		));
+	}
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+	/**
+	 * Creates a form to edit a Item entity.
+	 *
+	 * @param Item $entity The entity
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createEditForm(Item $entity)
+	{
+		$form = $this->createForm(new ItemType(), $entity, array(
+			'action' => $this->generateUrl('admin_menu_item_update', array('id' => $entity->getId())),
+			'method' => 'PUT',
+		));
 
-        return $form;
-    }
-    /**
-     * Edits an existing Item entity.
-     *
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
+		$form->add('submit', 'submit', array('label' => 'Update'));
 
-        $entity = $em->getRepository('RudakMenuBundle:Item')->find($id);
+		return $form;
+	}
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Item entity.');
-        }
+	/**
+	 * Edits an existing Item entity.
+	 *
+	 */
+	public function updateAction(Request $request, $id)
+	{
+		$em = $this->getDoctrine()->getManager();
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+		$entity = $em->getRepository('RudakMenuBundle:Item')->find($id);
 
-        if ($editForm->isValid()) {
-            $em->flush();
+		if (!$entity) {
+			throw $this->createNotFoundException('Unable to find Item entity.');
+		}
 
-            return $this->redirect($this->generateUrl('admin_menu_item_edit', array('id' => $id)));
-        }
+		$deleteForm = $this->createDeleteForm($id);
+		$editForm   = $this->createEditForm($entity);
+		$editForm->handleRequest($request);
 
-        return $this->render('RudakMenuBundle:Item:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-    /**
-     * Deletes a Item entity.
-     *
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+		if ($editForm->isValid()) {
+			$em->flush();
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('RudakMenuBundle:Item')->find($id);
+			return $this->redirect($this->generateUrl('admin_menu_item_edit', array('id' => $id)));
+		}
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Item entity.');
-            }
+		return $this->render('RudakMenuBundle:Item:edit.html.twig', array(
+			'entity'      => $entity,
+			'edit_form'   => $editForm->createView(),
+			'delete_form' => $deleteForm->createView(),
+		));
+	}
 
-            $em->remove($entity);
-            $em->flush();
-        }
+	/**
+	 * Deletes a Item entity.
+	 *
+	 */
+	public function deleteAction(Request $request, $id)
+	{
+		$form = $this->createDeleteForm($id);
+		$form->handleRequest($request);
 
-        return $this->redirect($this->generateUrl('admin_menu_item'));
-    }
+		if ($form->isValid()) {
+			$em     = $this->getDoctrine()->getManager();
+			$entity = $em->getRepository('RudakMenuBundle:Item')->find($id);
 
-    /**
-     * Creates a form to delete a Item entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_menu_item_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
+			if (!$entity) {
+				throw $this->createNotFoundException('Unable to find Item entity.');
+			}
+
+			$em->remove($entity);
+			$em->flush();
+		}
+
+		return $this->redirect($this->generateUrl('admin_menu_item'));
+	}
+
+	/**
+	 * Creates a form to delete a Item entity by id.
+	 *
+	 * @param mixed $id The entity id
+	 *
+	 * @return \Symfony\Component\Form\Form The form
+	 */
+	private function createDeleteForm($id)
+	{
+		return $this->createFormBuilder()
+					->setAction($this->generateUrl('admin_menu_item_delete', array('id' => $id)))
+					->setMethod('DELETE')
+					->add('submit', 'submit', array('label' => 'Delete'))
+					->getForm();
+	}
 }

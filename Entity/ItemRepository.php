@@ -22,4 +22,13 @@ class ItemRepository extends EntityRepository
 				   ->getQuery();
 		return $qb->execute();
 	}
+
+	public function findallByRank(){
+		$qb = $this->createQueryBuilder('i')
+				   ->addSelect('p')
+				   ->leftJoin('i.page', 'p')
+				   ->orderBy('i.rank', 'ASC')
+				   ->getQuery();
+		return $qb->execute();
+	}
 }
