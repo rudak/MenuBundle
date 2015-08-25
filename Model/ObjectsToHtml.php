@@ -10,8 +10,10 @@ namespace Rudak\MenuBundle\Model;
 
 use Rudak\CmsBundle\Entity\Page;
 use Rudak\MenuBundle\Elements\Menu;
+use Rudak\Slug\Utils\Slug;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Router;
+
 
 class ObjectsToHtml
 {
@@ -49,7 +51,7 @@ class ObjectsToHtml
 	{
 		return $this->Router->generate('rudak_cms_page_read', array(
 			'id'   => $Page->getId(),
-			'name' => $Page->getName()
+			'name' => Slug::slugit($Page->getName())
 		));
 	}
 

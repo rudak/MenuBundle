@@ -40,6 +40,7 @@ class IncludeController extends Controller
 		$entities       = $repo->getItemsByRank();
 		$EntitiesToHtml = new ObjectsToHtml($entities, $this->get("router"), $this->get('session'));
 		$html           = $EntitiesToHtml->getHtml();
+
 		return new Response($html);
 	}
 
