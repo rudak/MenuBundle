@@ -1,15 +1,11 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Item creation</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('rudak_main_admin') }}">Administration</a></li>
+        <li><a href="{{ path('admin_menu_item') }}">Liste des élements</a></li>
+        <li class="active">Nouvel élement</li>
+    </ol>
 
     {{ form(form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_menu_item') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
 {% endblock %}

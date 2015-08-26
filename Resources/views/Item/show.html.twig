@@ -1,40 +1,37 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Item</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('rudak_main_admin') }}">Administration</a></li>
+        <li><a href="{{ path('admin_menu_item') }}">Liste des élements</a></li>
+        <li class="active">voir un élement</li>
+    </ol>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Page</th>
-                <td>{{ entity.page.name }}</td>>
-            </tr>
-            <tr>
-                <th>Rank</th>
-                <td>{{ entity.rank }}</td>
-            </tr>
-            <tr>
-                <th>Active</th>
-                <td>{{ entity.active }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Page</th>
+            <td>{{ entity.page.name }}</td>
+        </tr>
+        <tr>
+            <th>Rank</th>
+            <td>{{ entity.rank }}</td>
+        </tr>
+        <tr>
+            <th>Active</th>
+            <td>{{ entity.active }}</td>
+        </tr>
         </tbody>
     </table>
+    <p>
+        <a href="{{ path('admin_menu_item_edit', { 'id': entity.id }) }}" class="btn btn-primary">
+            Modifier
+        </a>
+    </p>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_menu_item') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('admin_menu_item_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    {{ form(delete_form) }}
 {% endblock %}
