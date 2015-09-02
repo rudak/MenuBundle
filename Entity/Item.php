@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Item
  *
- * @ORM\Table()
+ * @ORM\Table(name="rudakMenu_item")
  * @ORM\Entity(repositoryClass="Rudak\MenuBundle\Entity\ItemRepository")
  */
 class Item
